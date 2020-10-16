@@ -5,7 +5,7 @@ var ctx=canvas.getContext('2d');
 //paddle1
 var paddlewidth1=20;
 var paddleheight1=90;
-var paddleY1=(canvas.height-200)/2; 
+var paddleY1=(canvas.height-200)/2;
 
 //paddle2
 //height controls the width
@@ -17,7 +17,7 @@ var paddleY2=(canvas.height-200)/2;
 //ball
 var ballradius=10;
 
-//keys pressed 
+//keys pressed
 var uppressed1=false;
 var downpressed1=false;
 var uppressed2=false;
@@ -44,6 +44,11 @@ document.addEventListener("keyup",keyuphandler1,false);
 document.addEventListener("keydown",keydownhandler2,false);
 document.addEventListener("keyup",keyuphandler2,false);
 
+this.socket = io();
+this.socket.on('playerMoved', function(y1) {
+  console.log(y1);
+  paddleY1 = y1;
+})
 
 //functions for what to do when the key is pressed or not
 //player1
@@ -133,16 +138,16 @@ function countscore()
 {
 
 }
-function disableScroll() { 
-    // Get the current page scroll position 
-    scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
-    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
-  
-        // if any scroll is attempted, set this to the previous value 
-        window.onscroll = function() { 
-            window.scrollTo(scrollLeft, scrollTop); 
-        }; 
-} 
+function disableScroll() {
+    // Get the current page scroll position
+    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+
+        // if any scroll is attempted, set this to the previous value
+        window.onscroll = function() {
+            window.scrollTo(scrollLeft, scrollTop);
+        };
+}
 //main function for where everything is drawn
 function draw()
 {
@@ -158,26 +163,18 @@ function draw()
 
     if(uppressed1)
     {
-        paddleY1+=7;
-        /*
-        if(paddleY1+paddleheight1>canvas.height)
-        {
-            paddleY1=canvas.height-paddleY1;
-        }
-        */
+        paddleY1 -= 7;
+        this.socket.emit('playerMovement', {y: paddleY1});
     }
     else if(downpressed1)
     {
-        paddleY1-=7;
-      
+        paddleY1 += 7;
+        this.socket.emit('playerMovement', {y: paddleY1});
     }
 
-
-
- 
     x-=dx;
     y+=dy;
-    
+
 }
 disableScroll();
 setInterval(draw, 10);

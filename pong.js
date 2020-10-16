@@ -159,10 +159,17 @@ function draw()
     if(uppressed1)
     {
         paddleY1+=7;
+        /*
         if(paddleY1+paddleheight1>canvas.height)
         {
             paddleY1=canvas.height-paddleY1;
         }
+        */
+    }
+    else if(downpressed1)
+    {
+        paddleY1-=7;
+      
     }
 
 

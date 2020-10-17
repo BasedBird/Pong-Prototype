@@ -2,32 +2,19 @@
 var canvas=document.querySelector('canvas');
 var ctx=canvas.getContext('2d');
 
-//paddle1
-var paddlewidth1=20;
-var paddleheight1=90;
-var paddleY1=(canvas.height-200)/2;
+var paddleOne = {
+  width: 20,
+  height: 90,
+  y: (canvas.height-200)/2,
+  x: canvas.width-790
+}
 
-//paddle2
-//height controls the width
-var paddlewidth2=20;
-//width controls the height
-var paddleheight2=90;
-var paddleY2=(canvas.height-200)/2;
-
-//keys pressed
-var uppressed=false;
-var downpressed=false;
-
-var Xpos1=canvas.width-790;
-var Xpos2=canvas.width-30;
-var Ypos=0;
-var Wpressed=false;
-var Spressed=false;
-
-
-//point
-var score1 = 0;
-var score2 = 0;
+var paddleTwo = {
+  width: 20,
+  height: 90,
+  y: (canvas.height-200)/2,
+  x: canvas.width-30
+}
 
 var ball = {
   radius: 10,
@@ -36,6 +23,16 @@ var ball = {
   x: 400,
   y: 400
 };
+
+//keys pressed
+var uppressed=false;
+var downpressed=false;
+var Wpressed=false;
+var Spressed=false;
+
+//point
+var score1 = 0;
+var score2 = 0;
 
 //checks wheter key is pressed
 document.addEventListener("keydown",keydownhandler1,false);
@@ -119,21 +116,11 @@ function drawball()
     ctx.closePath();
 }
 //draws paddle for player 1
-function drawpaddle1()
+function drawpaddle(paddle)
 {
     ctx.beginPath();
-    ctx.rect(Xpos1,paddleY1, paddlewidth1, paddleheight1);
+    ctx.rect(paddle.x, paddle.y, paddle.width, paddle.height);
     ctx.fillStyle="green";
-    ctx.fill();
-    ctx.closePath();
-
-}
-//draws paddle for player 2
-function drawpaddle2()
-{
-    ctx.beginPath();
-    ctx.rect(Xpos2,paddleY2, paddlewidth2, paddleheight2);
-    ctx.fillStyle="orange";
     ctx.fill();
     ctx.closePath();
 
@@ -142,14 +129,12 @@ function drawpaddle2()
 //collsion with paddle
 function ballhitp1()
 {
-
-    if(ball.y<paddleheight1)
+    if(Xpos1<ball.x+ball.radius&&Xpos1<paddlewidth1>ball.x&&paddleY1<ball.y+ball.radius&&paddleheight1+paddleY1>ball.y)
     {
-       
+
             ball.dx=-ball.dx;
 
     }
-
 }
 function ballhitp2()
 {
@@ -159,27 +144,26 @@ function movementp1()
 {
     if(uppressed)
     {
-        paddleY1-=7;
-        this.socket.emit('player1Movement', paddleY1);
+        paddleOne.y-=7;
+        this.socket.emit('player1Movement', paddleOne.y);
     }
     if(downpressed)
     {
-        paddleY1+=7;
-        this.socket.emit('player1Movement', paddleY1);
+        paddleOne.y+=7;
+        this.socket.emit('player1Movement', paddleOne.y);
     }
 }
 function movementp2()
 {
     if(Wpressed)
     {
-        paddleY2-=7;
-        this.socket.emit('player2Movement', paddleY2);
+        paddleTwo.y-=7;
+        this.socket.emit('player2Movement', paddleTwo.y);
     }
     if(Spressed)
     {
-        paddleY2+=7;
-        this.socket.emit('player2Movement', paddleY2);
-        console.log("hi")
+        paddleTwo.y+=7;
+        this.socket.emit('player2Movement', paddleTwo.y);
     }
 }
 //keeps track of score
@@ -208,8 +192,8 @@ function draw()
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawScore();
     drawball();
-    drawpaddle1();
-    drawpaddle2();
+    drawpaddle(paddleOne);
+    drawpaddle(paddleTwo);
     ballhitp1();
     movementp1();
     movementp2();

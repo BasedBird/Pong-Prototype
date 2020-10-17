@@ -169,7 +169,6 @@ function draw()
     drawball();
     drawpaddle(paddleOne);
     drawpaddle(paddleTwo);
-    ballhitp1();
     movementp1();
     movementp2();
 

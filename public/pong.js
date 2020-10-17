@@ -43,11 +43,11 @@ this.socket.on('scored', function(scores) {
   score1 = scores.score1;
   score2 = scores.score2;
 });
-this.socket.on('player1Moved', function(y1) {
-  paddleY1 = y1;
+this.socket.on('player1Moved', function(y) {
+  paddleOne.y = y;
 });
-this.socket.on('player2Moved', function(y2) {
-  paddleY2 = y2;
+this.socket.on('player2Moved', function(y) {
+  paddleTwo.y = y;
 });
 this.socket.on('updateBall', function(otherBall) {
   ball.x = otherBall.x;
@@ -123,17 +123,15 @@ function drawpaddle(paddle)
     ctx.fillStyle="green";
     ctx.fill();
     ctx.closePath();
-
 }
 
 //collsion with paddle
 function ballhitp1()
 {
-    if(Xpos1<ball.x+ball.radius&&Xpos1<paddlewidth1>ball.x&&paddleY1<ball.y+ball.radius&&paddleheight1+paddleY1>ball.y)
+    if (ball.x - ball.dx + ball.radius < paddleOne.x + paddleOne.width)
     {
-
-            ball.dx=-ball.dx;
-
+      if (ball.y < paddleOne.y + paddleOne.height && paddleOne.y < ball.y)
+        console.log("HIT!");
     }
 }
 function ballhitp2()

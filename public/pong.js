@@ -138,7 +138,7 @@ function ballhitp1()
         if(ball.x>paddleOne.x&&ball.x<paddle.x+paddleOne.width)
         {
             console.log('hi');
-            ball.dy=-ball.dy;
+            dy=-dy;
         }
     }
 
@@ -184,6 +184,7 @@ function drawScore()
   score2Text.font = "30px Arial";
   ctx.fillText(score2.toString(), 50,50);
 }
+
 //main function for where everything is drawn
 function draw()
 {
@@ -197,4 +198,5 @@ function draw()
     movementp2();
 
 }
+
 setInterval(draw, 10);

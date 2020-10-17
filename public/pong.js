@@ -179,11 +179,6 @@ function draw()
         this.socket.emit('playerMovement', {y: paddleY1});
     }
 
-    this.socket.emit('getBall')
-
-    ball.x-=ball.dx;
-    ball.y+=ball.dy;
-
     drawball();
 }
 disableScroll();

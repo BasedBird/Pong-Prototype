@@ -1,0 +1,24 @@
+{
+  "name": "Learning",
+  "version": "1.0.0",
+  "description": "For learning github",
+  "main": "pong.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BasedBird/Learning.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BasedBird/Learning/issues"
+  },
+  "homepage": "https://github.com/BasedBird/Learning#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}

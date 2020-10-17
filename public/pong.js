@@ -5,7 +5,7 @@ var ctx=canvas.getContext('2d');
 //paddle1
 var paddlewidth1=20;
 var paddleheight1=90;
-var paddleY1=(canvas.height-200)/2; 
+var paddleY1=(canvas.height-200)/2;
 
 //paddle2
 //height controls the width
@@ -13,9 +13,6 @@ var paddlewidth2=20;
 //width controls the height
 var paddleheight2=90;
 var paddleY2=(canvas.height-200)/2;
-
-//ball
-var ballradius=10;
 
 //keys pressed 
 var uppressed=false;
@@ -26,26 +23,40 @@ var Ypos=0;
 var Wpressed=false;
 var Spressed=false;
 
-//speed
-var dx=2;
-var dy=2;
-
-
-//x and y
-//x is - means left and + means right
-var x=canvas.width-paddlewidth1-15;
-//y is + means left and - means right
-var y=canvas.height/2;
 
 //point
-var score1=0;
-var score2=0;
+var score1 = 0;
+var score2 = 0;
+
+var ball = {
+  radius: 10,
+  dx: 2,
+  dy: 2,
+  x: 400,
+  y: 400
+};
 
 //checks wheter key is pressed
 document.addEventListener("keydown",keydownhandler1,false);
 document.addEventListener("keyup",keyuphandler1,false);
 document.addEventListener("keydown",keydownhandler2,false);
 document.addEventListener("keyup",keyuphandler2,false);
+
+this.socket = io();
+this.socket.on('scored', function(scores) {
+  score1 = scores.score1;
+  score2 = scores.score2;
+});
+this.socket.on('playerMoved', function(y1) {
+  console.log(y1);
+  paddleY1 = y1;
+});
+this.socket.on('updateBall', function(otherBall) {
+  ball.x = otherBall.x;
+  ball.y = otherBall.y;
+  ball.dx = otherBall.dx;
+  ball.dy = otherBall.dy;
+});
 
 
 
@@ -88,7 +99,6 @@ function keydownhandler2(e)
     {
         Spressed=true;
     }
-
 }
 function keyuphandler2(e)
 {
@@ -108,7 +118,7 @@ function keyuphandler2(e)
 function drawball()
 {
     ctx.beginPath();
-    ctx.arc(x,y,ballradius,0,Math.PI*2);
+    ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2);
     ctx.fillStyle="blue";
     ctx.fill();
     ctx.closePath();
@@ -133,15 +143,7 @@ function drawpaddle2()
     ctx.closePath();
 
 }
-function checkbounds()
-{
-      //sets top and bottom bounds and allows the ball to bounce off boundaries
-    if(y + dy > canvas.height-ballradius || y + dy < ballradius)
-    {
-        dy=-dy;
-        
-    }
-}
+
 //collsion with paddle
 function ballhitp1()
 {
@@ -186,36 +188,37 @@ function movementp2()
 
 }
 //keeps track of score
-function countscore()
+function drawScore()
 {
-
+  var score1Text = canvas.getContext("2d");
+  score1Text.font = "30px Arial";
+  ctx.fillText(score1.toString(), 10,50);
+  var score2Text = canvas.getContext("2d");
+  score2Text.font = "30px Arial";
+  ctx.fillText(score2.toString(), 50,50);
 }
-function disableScroll() { 
-    // Get the current page scroll position 
-    scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
-    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
-  
-        // if any scroll is attempted, set this to the previous value 
-        window.onscroll = function() { 
-            window.scrollTo(scrollLeft, scrollTop); 
-        }; 
-} 
+function disableScroll() {
+    // Get the current page scroll position
+    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+
+        // if any scroll is attempted, set this to the previous value
+        window.onscroll = function() {
+            window.scrollTo(scrollLeft, scrollTop);
+        };
+}
 //main function for where everything is drawn
 function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawScore();
     drawball();
     drawpaddle1();
     drawpaddle2();
-    checkbounds();
     ballhitp1()
     movementp1();
     movementp2();
 
-   
-    x-=dx;
-    y+=dy;
-    
 }
 disableScroll();
 setInterval(draw, 10);

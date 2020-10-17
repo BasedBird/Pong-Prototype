@@ -18,7 +18,8 @@ var paddleY2=(canvas.height-200)/2;
 var uppressed=false;
 var downpressed=false;
 
-var Xpos=canvas.width-30;
+var Xpos1=canvas.width-790;
+var Xpos2=canvas.width-30;
 var Ypos=0;
 var Wpressed=false;
 var Spressed=false;
@@ -93,22 +94,25 @@ function keydownhandler2(e)
     if(e.keycode=="87")
     {
         Wpressed=true;
+        Xpos+=7;
 
     }
     if(e.keycode=="83")
     {
         Spressed=true;
+        paddleY2-=7;
     }
 }
 function keyuphandler2(e)
 {
-    if(e.keycode==87)
+    if(e.keycode=="87")
     {
         Wpressed=false;
 
     }
-    if(e.keycode==83)
+    if(e.keycode=="83")
     {
+
         Spressed=false;
     }
 }
@@ -126,7 +130,7 @@ function drawball()
 function drawpaddle1()
 {
     ctx.beginPath();
-    ctx.rect(canvas.width-790,paddleY1, paddlewidth1, paddleheight1);
+    ctx.rect(Xpos1,paddleY1, paddlewidth1, paddleheight1);
     ctx.fillStyle="green";
     ctx.fill();
     ctx.closePath();
@@ -136,7 +140,7 @@ function drawpaddle1()
 function drawpaddle2()
 {
     ctx.beginPath();
-    ctx.rect(Xpos,paddleY2, paddlewidth2, paddleheight2);
+    ctx.rect(Xpos2,paddleY2, paddlewidth2, paddleheight2);
     ctx.fillStyle="orange";
     ctx.fill();
     ctx.closePath();
@@ -146,12 +150,12 @@ function drawpaddle2()
 //collsion with paddle
 function ballhitp1()
 {
-    if(ball.x+ball.dx>canvas.width-ball.radius)
+
+    if(Xpos1<ball.x+ball.radius&&Xpos1<paddlewidth1>ball.x&&paddleY1<ball.y+ball.radius&&paddleheight1+paddleY1>ball.y)
     {
-        if(ball.x>paddleY1&&x<paddleY1-paddlewidth1)
-        {
-            ball.dy-=ball.dy;
-        }
+       
+            ball.dx=-ball.dx;
+
     }
 
 }
@@ -213,7 +217,7 @@ function draw()
     drawball();
     drawpaddle1();
     drawpaddle2();
-    ballhitp1()
+    ballhitp1();
     movementp1();
     movementp2();
 

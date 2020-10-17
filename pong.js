@@ -18,10 +18,13 @@ var paddleY2=(canvas.height-200)/2;
 var ballradius=10;
 
 //keys pressed 
-var uppressed1=false;
-var downpressed1=false;
-var uppressed2=false;
-var downpressed2=false;
+var uppressed=false;
+var downpressed=false;
+
+var Xpos=canvas.width-30;
+var Ypos=0;
+var Wpressed=false;
+var Spressed=false;
 
 //speed
 var dx=2;
@@ -45,18 +48,19 @@ document.addEventListener("keydown",keydownhandler2,false);
 document.addEventListener("keyup",keyuphandler2,false);
 
 
+
 //functions for what to do when the key is pressed or not
 //player1
 function keydownhandler1(e)
 {
     if(e.key=="Up"||e.key=="ArrowUp")
     {
-        uppressed1=true;
+        uppressed=true;
 
     }
     if(e.key=="Down"||e.key=="ArrowDown")
     {
-        downpressed1=true;
+        downpressed=true;
     }
 
 }
@@ -64,25 +68,25 @@ function keyuphandler1(e)
 {
     if(e.key=="Up"||e.key=="ArrowUp")
     {
-        uppressed1=false;
+        uppressed=false;
     }
     if(e.key=="Down"||e.key=="ArrowDown")
     {
-        downpressed1=false;
+        downpressed=false;
     }
 
 }
 //player2
 function keydownhandler2(e)
 {
-    if(e.keycode==87)
+    if(e.keycode=="87")
     {
-        uppressed2=true;
+        Wpressed=true;
 
     }
-    if(e.keycode==83)
+    if(e.keycode=="83")
     {
-        downpressed2=true;
+        Spressed=true;
     }
 
 }
@@ -90,11 +94,12 @@ function keyuphandler2(e)
 {
     if(e.keycode==87)
     {
-        uppressed2=false;
+        Wpressed=false;
+        
     }
     if(e.keycode==83)
     {
-        downpressed2=false;
+        Spressed=false;
     }
 
 }
@@ -122,10 +127,62 @@ function drawpaddle1()
 function drawpaddle2()
 {
     ctx.beginPath();
-    ctx.rect(canvas.width-30,paddleY2, paddlewidth2, paddleheight2);
+    ctx.rect(Xpos,paddleY2, paddlewidth2, paddleheight2);
     ctx.fillStyle="orange";
     ctx.fill();
     ctx.closePath();
+
+}
+function checkbounds()
+{
+      //sets top and bottom bounds and allows the ball to bounce off boundaries
+    if(y + dy > canvas.height-ballradius || y + dy < ballradius)
+    {
+        dy=-dy;
+        
+    }
+}
+//collsion with paddle
+function ballhitp1()
+{
+    if(x+dx>canvas.width-ballradius)
+    {
+        if(x>paddleY1&&x<paddleY1-paddlewidth1)
+        {
+            dy-=dy;
+
+        }
+    }
+   
+}
+function ballhitp2()
+{
+
+}
+function movementp1()
+{
+    if(uppressed)
+    {
+        paddleY1-=7;
+    }
+    if(downpressed)
+    {
+        paddleY1+=7;
+      
+    }
+
+}
+function movementp2()
+{
+    if(Wpressed)
+    {
+        paddleY1-=5;
+        
+    }
+    if(Spressed)
+    {
+        paddleY2+=5;
+    }
 
 }
 //keeps track of score
@@ -150,31 +207,12 @@ function draw()
     drawball();
     drawpaddle1();
     drawpaddle2();
+    checkbounds();
+    ballhitp1()
+    movementp1();
+    movementp2();
 
-    //sets top and bottom bounds and allows the ball to bounce off boundaries
-    if(y + dy > canvas.height-ballradius || y + dy < ballradius) {
-        dy=-dy;
-    }
-
-    if(uppressed1)
-    {
-        paddleY1+=7;
-        /*
-        if(paddleY1+paddleheight1>canvas.height)
-        {
-            paddleY1=canvas.height-paddleY1;
-        }
-        */
-    }
-    else if(downpressed1)
-    {
-        paddleY1-=7;
-      
-    }
-
-
-
- 
+   
     x-=dx;
     y+=dy;
     

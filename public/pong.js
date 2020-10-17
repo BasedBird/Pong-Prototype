@@ -43,11 +43,11 @@ this.socket.on('scored', function(scores) {
   score1 = scores.score1;
   score2 = scores.score2;
 });
-this.socket.on('player1Moved', function(y1) {
-  paddleY1 = y1;
+this.socket.on('player1Moved', function(y) {
+  paddleOne.y = y;
 });
-this.socket.on('player2Moved', function(y2) {
-  paddleY2 = y2;
+this.socket.on('player2Moved', function(y) {
+  paddleTwo.y = y;
 });
 this.socket.on('updateBall', function(otherBall) {
   ball.x = otherBall.x;
@@ -123,29 +123,6 @@ function drawpaddle(paddle)
     ctx.fillStyle="green";
     ctx.fill();
     ctx.closePath();
-
-}
-
-//collsion with paddle
-function ballhitp1()
-{
-    if(y+dy<ball.radius)
-    {
-        ball.dy=-ball.dy;
-    }
-    else if(ball.y+ball.dy>canvas.height-ball.radius)
-    {
-        if(ball.x>paddleOne.x&&ball.x<paddle.x+paddleOne.width)
-        {
-            console.log('hi');
-            dy=-dy;
-        }
-    }
-
-   
-}
-function ballhitp2()
-{
 }
 
 function movementp1()
@@ -193,7 +170,6 @@ function draw()
     drawball();
     drawpaddle(paddleOne);
     drawpaddle(paddleTwo);
-    ballhitp1();
     movementp1();
     movementp2();
 

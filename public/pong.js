@@ -39,10 +39,7 @@ document.addEventListener("keydown",keydownhandler2,false);
 document.addEventListener("keyup",keyuphandler2,false);
 
 this.socket = io();
-this.socket.on('reset', function(scores) {
-  console.log("score");
-  ball.x = canvas.width/2 + 10;
-  ball.y = canvas.height/2;
+this.socket.on('scored', function(scores) {
   score1 = scores.score1;
   score2 = scores.score2;
 });

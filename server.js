@@ -45,14 +45,16 @@ io.on('connection', function(socket){
     }
     if(ball.x - ball.dx + ball.radius < 0)
     {
-      io.emit('scored', 1);
+      scores.score1 += 1;
+      io.emit('scored', scores);
       ball.x = 400;
       ball.y = 400;
     }
 
     if(ball.x + ball.dx - ball.radius > canvas.width)
     {
-      io.emit('scored', 2);
+      scores.score2 += 1;
+      io.emit('scored', scores);
       ball.x = 400;
       ball.y = 400;
     }

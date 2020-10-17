@@ -147,7 +147,7 @@ function drawpaddle2()
 //collsion with paddle
 function ballhitp1()
 {
-    if(x+dx>canvas.width-ballradius)
+    if(x+dx>canvas.width-radius)
     {
         if(x>paddleY1&&x<paddleY1-paddlewidth1)
         {

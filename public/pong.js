@@ -40,8 +40,6 @@ var ball = {
 //checks wheter key is pressed
 document.addEventListener("keydown",keydownhandler1,false);
 document.addEventListener("keyup",keyuphandler1,false);
-document.addEventListener("keydown",keydownhandler2,false);
-document.addEventListener("keyup",keyuphandler2,false);
 
 this.socket = io();
 this.socket.on('scored', function(scores) {
@@ -67,18 +65,27 @@ this.socket.on('updateBall', function(otherBall) {
 //player1
 function keydownhandler1(e)
 {
+  console.log(e);
     if(e.key=="Up"||e.key=="ArrowUp")
     {
         uppressed=true;
-
     }
     if(e.key=="Down"||e.key=="ArrowDown")
     {
         downpressed=true;
     }
+    if(e.key=="w")
+    {
+        Wpressed=true;
+    }
+    if(e.key=="s")
+    {
+        Spressed=true;
+    }
 }
 function keyuphandler1(e)
 {
+console.log(e + "up");
     if(e.key=="Up"||e.key=="ArrowUp")
     {
         uppressed=false;
@@ -87,35 +94,20 @@ function keyuphandler1(e)
     {
         downpressed=false;
     }
-}
-//player2
-function keydownhandler2(e)
-{
-    if(e.keycode=="87")
-    {
-        Wpressed=true;
-        Xpos+=7;
 
-    }
-    if(e.keycode=="83")
-    {
-        Spressed=true;
-        paddleY2-=7;
-    }
-}
-function keyuphandler2(e)
-{
-    if(e.keycode=="87")
+    if(e.key=="w")
     {
         Wpressed=false;
 
     }
-    if(e.keycode=="83")
+
+    if(e.key=="s")
     {
 
         Spressed=false;
     }
 }
+
 //draws assets for game
 //draws ball
 function drawball()
@@ -180,13 +172,14 @@ function movementp2()
 {
     if(Wpressed)
     {
-        paddleY1-=7;
+        paddleY2-=7;
         this.socket.emit('player2Movement', paddleY2);
     }
     if(Spressed)
     {
         paddleY2+=7;
         this.socket.emit('player2Movement', paddleY2);
+        console.log("hi")
     }
 }
 //keeps track of score

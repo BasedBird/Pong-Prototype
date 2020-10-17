@@ -5,7 +5,6 @@ var io = require('socket.io').listen(server);
 var port = 8324;
 
 var players = {};
-var y1
 var scores = {
   score1: 0,
   score2: 0
@@ -34,14 +33,11 @@ io.on('connection', function(socket){
     playerId: socket.id
   }
   socket.on('player1Movement', function(moveData) {
-    console.log(moveData);
-    y1 = moveData.y;
-    socket.broadcast.emit('playe1Moved', y1);
+    console.log(moveData)
+    socket.broadcast.emit('player1Moved', moveData);
   })
   socket.on('player2Movement', function(moveData) {
-    console.log(moveData);
-    y1 = moveData.y;
-    socket.broadcast.emit('playe2Moved', y1);
+    socket.broadcast.emit('player2Moved', moveData);
   })
 })
 

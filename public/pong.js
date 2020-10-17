@@ -14,7 +14,7 @@ var paddlewidth2=20;
 var paddleheight2=90;
 var paddleY2=(canvas.height-200)/2;
 
-//keys pressed 
+//keys pressed
 var uppressed=false;
 var downpressed=false;
 
@@ -47,9 +47,11 @@ this.socket.on('scored', function(scores) {
   score1 = scores.score1;
   score2 = scores.score2;
 });
-this.socket.on('playerMoved', function(y1) {
-  console.log(y1);
+this.socket.on('player1Moved', function(y1) {
   paddleY1 = y1;
+});
+this.socket.on('player2Moved', function(y2) {
+  paddleY2 = y2;
 });
 this.socket.on('updateBall', function(otherBall) {
   ball.x = otherBall.x;
@@ -73,7 +75,6 @@ function keydownhandler1(e)
     {
         downpressed=true;
     }
-
 }
 function keyuphandler1(e)
 {
@@ -85,7 +86,6 @@ function keyuphandler1(e)
     {
         downpressed=false;
     }
-
 }
 //player2
 function keydownhandler2(e)
@@ -105,13 +105,12 @@ function keyuphandler2(e)
     if(e.keycode==87)
     {
         Wpressed=false;
-        
+
     }
     if(e.keycode==83)
     {
         Spressed=false;
     }
-
 }
 //draws assets for game
 //draws ball
@@ -147,45 +146,44 @@ function drawpaddle2()
 //collsion with paddle
 function ballhitp1()
 {
-    if(x+dx>canvas.width-ballradius)
+    if(ball.x+ball.dx>canvas.width-ball.radius)
     {
-        if(x>paddleY1&&x<paddleY1-paddlewidth1)
+        if(ball.x>paddleY1&&x<paddleY1-paddlewidth1)
         {
-            dy-=dy;
-
+            ball.dy-=ball.dy;
         }
     }
-   
+
 }
 function ballhitp2()
 {
-
 }
+
 function movementp1()
 {
     if(uppressed)
     {
         paddleY1-=7;
+        this.socket.emit('player1Movement', paddleY1);
     }
     if(downpressed)
     {
         paddleY1+=7;
-      
+        this.socket.emit('player1Movement', paddleY1);
     }
-
 }
 function movementp2()
 {
     if(Wpressed)
     {
-        paddleY1-=5;
-        
+        paddleY1-=7;
+        this.socket.emit('player2Movement', paddleY2);
     }
     if(Spressed)
     {
-        paddleY2+=5;
+        paddleY2+=7;
+        this.socket.emit('player2Movement', paddleY2);
     }
-
 }
 //keeps track of score
 function drawScore()

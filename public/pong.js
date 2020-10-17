@@ -125,19 +125,6 @@ function drawpaddle(paddle)
     ctx.closePath();
 }
 
-//collsion with paddle
-function ballhitp1()
-{
-    if (ball.x - ball.dx + ball.radius < paddleOne.x + paddleOne.width)
-    {
-      if (ball.y < paddleOne.y + paddleOne.height && paddleOne.y < ball.y)
-        console.log("HIT!");
-    }
-}
-function ballhitp2()
-{
-}
-
 function movementp1()
 {
     if(uppressed)
@@ -174,16 +161,6 @@ function drawScore()
   score2Text.font = "30px Arial";
   ctx.fillText(score2.toString(), 50,50);
 }
-function disableScroll() {
-    // Get the current page scroll position
-    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-
-        // if any scroll is attempted, set this to the previous value
-        window.onscroll = function() {
-            window.scrollTo(scrollLeft, scrollTop);
-        };
-}
 //main function for where everything is drawn
 function draw()
 {
@@ -197,5 +174,4 @@ function draw()
     movementp2();
 
 }
-disableScroll();
 setInterval(draw, 10);

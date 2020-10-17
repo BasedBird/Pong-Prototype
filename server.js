@@ -38,30 +38,29 @@ io.on('connection', function(socket){
     y1 = moveData.y;
     socket.broadcast.emit('playerMoved', y1);
   })
-  setInterval(() => {
-    io.emit('updateBall', ball);
-    if(ball.y + ball.dy > canvas.height-ball.radius || ball.y + ball.dy < ball.radius) {
-        ball.dy=-ball.dy;
-    }
-    if(ball.x - ball.dx + ball.radius < 0)
-    {
-      scores.score1 += 1;
-      io.emit('scored', scores);
-      ball.x = 400;
-      ball.y = 400;
-    }
-
-    if(ball.x + ball.dx - ball.radius > canvas.width)
-    {
-      scores.score2 += 1;
-      io.emit('scored', scores);
-      ball.x = 400;
-      ball.y = 400;
-    }
-    ball.x-=ball.dx;
-    ball.y+=ball.dy;
-  }, 10);
 })
+setInterval(() => {
+  io.emit('updateBall', ball);
+  if(ball.y + ball.dy > canvas.height-ball.radius || ball.y + ball.dy < ball.radius) {
+      ball.dy=-ball.dy;
+  }
+  if(ball.x - ball.dx + ball.radius < 0)
+  {
+    scores.score1 += 1;
+    io.emit('scored', scores);
+    ball.x = 400;
+    ball.y = 400;
+  }
+  if(ball.x + ball.dx - ball.radius > canvas.width)
+  {
+    scores.score2 += 1;
+    io.emit('scored', scores);
+    ball.x = 400;
+    ball.y = 400;
+  }
+  ball.x-=ball.dx;
+  ball.y+=ball.dy;
+}, 10);
 
 server. listen(port, function() {
   console.log("Listening on: " + port);

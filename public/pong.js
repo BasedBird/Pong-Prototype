@@ -162,6 +162,7 @@ function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawScore();
+    drawball();
     drawpaddle1();
     drawpaddle2();
 
@@ -175,8 +176,6 @@ function draw()
         paddleY1 += 7;
         this.socket.emit('playerMovement', {y: paddleY1});
     }
-
-    drawball();
 }
 disableScroll();
 setInterval(draw, 10);

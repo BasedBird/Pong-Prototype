@@ -129,12 +129,20 @@ function drawpaddle(paddle)
 //collsion with paddle
 function ballhitp1()
 {
-    if(Xpos1<ball.x+ball.radius&&Xpos1<paddlewidth1>ball.x&&paddleY1<ball.y+ball.radius&&paddleheight1+paddleY1>ball.y)
+    if(y+dy<ball.radius)
     {
-
-            ball.dx=-ball.dx;
-
+        ball.dy=-ball.dy;
     }
+    else if(ball.y+ball.dy>canvas.height-ball.radius)
+    {
+        if(ball.x>paddleOne.x&&ball.x<paddle.x+paddleOne.width)
+        {
+            console.log('hi');
+            ball.dy=-ball.dy;
+        }
+    }
+
+   
 }
 function ballhitp2()
 {
@@ -176,16 +184,6 @@ function drawScore()
   score2Text.font = "30px Arial";
   ctx.fillText(score2.toString(), 50,50);
 }
-function disableScroll() {
-    // Get the current page scroll position
-    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-
-        // if any scroll is attempted, set this to the previous value
-        window.onscroll = function() {
-            window.scrollTo(scrollLeft, scrollTop);
-        };
-}
 //main function for where everything is drawn
 function draw()
 {
@@ -199,5 +197,4 @@ function draw()
     movementp2();
 
 }
-disableScroll();
 setInterval(draw, 10);

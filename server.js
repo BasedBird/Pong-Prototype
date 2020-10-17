@@ -33,12 +33,18 @@ io.on('connection', function(socket){
   players[socket.id] = {
     playerId: socket.id
   }
-  socket.on('playerMovement', function(moveData) {
+  socket.on('player1Movement', function(moveData) {
     console.log(moveData);
     y1 = moveData.y;
-    socket.broadcast.emit('playerMoved', y1);
+    socket.broadcast.emit('playe1Moved', y1);
+  })
+  socket.on('player2Movement', function(moveData) {
+    console.log(moveData);
+    y1 = moveData.y;
+    socket.broadcast.emit('playe2Moved', y1);
   })
 })
+
 setInterval(() => {
   io.emit('updateBall', ball);
   if(ball.y + ball.dy > canvas.height-ball.radius || ball.y + ball.dy < ball.radius) {

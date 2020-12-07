@@ -2,6 +2,32 @@
 var canvas=document.querySelector('canvas');
 var ctx=canvas.getContext('2d');
 
+
+
+//sprite creator
+var x_f=0;
+var y_f=0;
+
+var srcX;
+var srcY;
+
+var spritesheetheight=128;
+var spritesheetwidth=128;
+
+var col=2;
+var rows=2;
+
+var height=spritesheetheight/rows;
+var width=spritesheetwidth/col;
+
+var currentframe=0;
+
+var pengu=new Image();
+pengu.src="Penguinsprite.png";
+
+canvas.width=canwidth;
+canvas.height=canheight;
+
 var paddleOne = {
   width: 20,
   height: 90,
@@ -29,6 +55,7 @@ var uppressed=false;
 var downpressed=false;
 var Wpressed=false;
 var Spressed=false;
+var spacepressed=false;
 
 //point
 var score1 = 0;
@@ -56,6 +83,17 @@ this.socket.on('updateBall', function(otherBall) {
   ball.dy = otherBall.dy;
 });
 
+function updateFrame()
+{
+    currentframe=++currentframe%col; 
+
+    srcX=currentframe*width;
+
+    srcY=0;
+
+
+
+}
 
 
 //functions for what to do when the key is pressed or not
@@ -78,6 +116,10 @@ function keydownhandler1(e)
     if(e.key=="s")
     {
         Spressed=true;
+    }
+    if(e.key==" ")
+    {
+        spacepressed=true;
     }
 }
 function keyuphandler1(e)
@@ -103,8 +145,12 @@ console.log(e + "up");
 
         Spressed=false;
     }
+    if(e.key==" ")
+    {
+        spacepressed=false;
+    }
 }
-
+this.socket.emit('spce',spacepressed);
 //draws assets for game
 //draws ball
 function drawball()
@@ -167,7 +213,8 @@ function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawScore();
-    drawball();
+    updateFrame();
+    ctx.drawImage(pengu,srcX,srcY,width,height,x,y,width,height);
     drawpaddle(paddleOne);
     drawpaddle(paddleTwo);
     movementp1();
@@ -175,4 +222,5 @@ function draw()
 
 }
 
-setInterval(draw, 10);
+setInterval(
+    draw, 10);

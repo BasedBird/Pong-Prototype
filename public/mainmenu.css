@@ -1,0 +1,42 @@
+body
+{
+    background-color:  #1f1f1f;
+}
+canvas
+{
+    background-color: #ECEFF8;
+    margin-top: 100px;
+    margin-bottom: 500px;
+    margin-left: 500px;
+    margin-right: 300px;
+
+}
+button
+{
+    position: absolute;
+    left:660px;
+    width:500px;
+    height:50px;
+}
+#join
+{ 
+    top:400px;
+
+}
+#how
+{
+    top:450px;
+    margin-top:50px;
+}
+#settings
+{
+    top:500px;
+    margin-top:100px;
+}
+img
+{
+    position: absolute;
+    bottom:500px;
+    left:560px;
+   
+}

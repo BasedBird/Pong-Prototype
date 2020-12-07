@@ -40,6 +40,8 @@ var canvas = {
   width: 800,
   height : 800
 }
+var countbar=0;
+var truthbar=false;
 
 
 app.use(express.static(__dirname + '/public'));
@@ -59,8 +61,19 @@ io.on('connection', function(socket){
     socket.broadcast.emit('player2Moved', moveData);
   })
 })
+io.on('connection',function(socket)
+{
+  socket.on('spce',function(truthdata)
+  {
+    truthbar=truthdata;
+    socket.broadcast.emit('spce',truthdata);
+  
+  })
+
+})
 
 setInterval(() => {
+  spacebarnum();
   io.emit('updateBall', ball);
   if(ball.y + ball.dy > canvas.height-ball.radius || ball.y + ball.dy < ball.radius) {
     ball.dy=-ball.dy;
@@ -83,6 +96,7 @@ setInterval(() => {
   ball.y+=ball.dy;
   ballhitp1();
   ballhitp2();
+  
 }, 10);
 
 server. listen(port, function() {
@@ -109,5 +123,13 @@ function ballhitp2()
       ball.x = paddleTwo.x - 1;
       ball.dx = -ball.dx
     }
+  }
+}
+function spacebarnum()
+{
+  if(truthbar)
+  {
+    console.log("start");
+    countbar+=1;
   }
 }

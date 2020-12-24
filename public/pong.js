@@ -3,31 +3,6 @@ var canvas=document.querySelector('canvas');
 var ctx=canvas.getContext('2d');
 
 
-
-//sprite creator
-var x_f=0;
-var y_f=0;
-
-var srcX;
-var srcY;
-
-var spritesheetheight=128;
-var spritesheetwidth=128;
-
-var col=2;
-var rows=2;
-
-var height=spritesheetheight/rows;
-var width=spritesheetwidth/col;
-
-var currentframe=0;
-
-var pengu=new Image();
-pengu.src="Penguinsprite.png";
-
-canvas.width=canwidth;
-canvas.height=canheight;
-
 var paddleOne = {
   width: 20,
   height: 90,
@@ -82,19 +57,6 @@ this.socket.on('updateBall', function(otherBall) {
   ball.dx = otherBall.dx;
   ball.dy = otherBall.dy;
 });
-
-function updateFrame()
-{
-    currentframe=++currentframe%col; 
-
-    srcX=currentframe*width;
-
-    srcY=0;
-
-
-
-}
-
 
 //functions for what to do when the key is pressed or not
 //player1
@@ -157,7 +119,7 @@ function drawball()
 {
     ctx.beginPath();
     ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2);
-    ctx.fillStyle="blue";
+    ctx.fillStyle="#ecf1f4";
     ctx.fill();
     ctx.closePath();
 }
@@ -166,7 +128,7 @@ function drawpaddle(paddle)
 {
     ctx.beginPath();
     ctx.rect(paddle.x, paddle.y, paddle.width, paddle.height);
-    ctx.fillStyle="green";
+    ctx.fillStyle="#ABD1F3";
     ctx.fill();
     ctx.closePath();
 }
@@ -213,8 +175,7 @@ function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawScore();
-    updateFrame();
-    ctx.drawImage(pengu,srcX,srcY,width,height,x,y,width,height);
+    drawball();
     drawpaddle(paddleOne);
     drawpaddle(paddleTwo);
     movementp1();
@@ -222,5 +183,4 @@ function draw()
 
 }
 
-setInterval(
-    draw, 10);
+setInterval(draw, 10);
